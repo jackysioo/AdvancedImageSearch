@@ -29,4 +29,22 @@ function contextMenuHandler(info, tab){
       await worker.terminate();
     })();
   }
-};
+}; 
+
+chrome.browserAction.onClicked.addListener(tab => {
+  chrome.tabs.sendMessage( 
+    tab.id, 
+    {}
+  );
+ });
+
+ chrome.runtime.onMessage.addListener(tab => { 
+  function (message) { 
+    new Promise(resolve,reject => { 
+      chrome.tabs.captureVisibleTab({format: 'png', quality: 100},resolve);
+    }).then(image => { 
+      //to-do: add cropping functionality
+    });
+
+  }
+ });
